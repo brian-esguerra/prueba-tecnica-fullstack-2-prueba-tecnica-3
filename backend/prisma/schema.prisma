@@ -1,0 +1,60 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  Admin
+  Student
+  Teacher
+}
+
+model User {
+  id        Int     @id @default(autoincrement())
+  fullName  String
+  email     String  @unique
+  password  String
+  idType    String
+  idNumber  String  @unique
+  role      Role
+  createdAt BigInt  @default(0)
+
+  courses          Course[]     @relation("ProfessorCourses")
+  enrolledCourses  CourseUser[] @relation("StudentCoursesUser")
+}
+
+model Course {
+  id          Int     @id @default(autoincrement())
+  name        String
+  image       String?
+  description String?
+  category    String?
+  level       String?
+  professorId Int
+  startDate   BigInt @default(0)
+  status      String
+  createdAt   BigInt @default(0)
+  
+  professor   User         @relation("ProfessorCourses", fields: [professorId], references: [id], map: "fk_course_professor_fk")
+  students    CourseUser[] @relation("StudentCoursesCourse")
+
+  @@index([professorId], map: "idx_course_professor")
+}
+
+model CourseUser {
+  id         Int     @id @default(autoincrement())
+  userId     Int
+  courseId   Int
+  enrolledAt BigInt  @default(0)
+
+  course     Course @relation("StudentCoursesCourse", fields: [courseId], references: [id], map: "fk_courseuser_course_fk")
+  user       User   @relation("StudentCoursesUser", fields: [userId], references: [id], map: "fk_courseuser_user_fk")
+
+  @@unique([userId, courseId], map: "uq_courseuser_user_course")
+  @@index([courseId], map: "idx_courseuser_course")
+}
