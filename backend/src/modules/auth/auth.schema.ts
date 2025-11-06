@@ -6,7 +6,7 @@ export const registerUserSchema = z.object({
   password: z.string().min(6, "La contraseña debe tener al menos 6 caracteres"),
   idType: z.string().min(2, "Tipo de documento requerido"),
   idNumber: z.string().min(4, "Número de documento requerido"),
-  role: z.enum(["Admin", "Student", "Teacher"])
+  role: z.enum(["Student"])
 });
 
 export const loginSchema = z.object({

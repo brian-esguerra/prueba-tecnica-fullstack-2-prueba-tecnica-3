@@ -22,6 +22,15 @@ export class AuthService {
       throw new Error("El email ya está registrado");
     }
 
+    // Verificar si el idNumber ya existe
+    const existingId = await prisma.user.findUnique({
+      where: { idNumber: data.idNumber },
+    });
+
+    if (existingId) {
+      throw new Error("El número de identificación ya está registrado");
+    }
+
     // Hashear contraseña
     const hashedPassword = await hashPassword(data.password);
 
