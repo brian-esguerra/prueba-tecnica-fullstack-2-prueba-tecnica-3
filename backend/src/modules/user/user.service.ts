@@ -68,7 +68,7 @@ export class UserService {
 
     if(!user) throw new Error("Usuario no encontrado");
 
-    return { user }
+    return user
   }
 
   // service: update user

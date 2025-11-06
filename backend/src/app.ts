@@ -3,6 +3,8 @@ import cors from "cors";
 import indexRoutes from './modules/index';
 import userRoutes from './modules/user/user.routes';
 import authRoutes from './modules/auth/auth.routes';
+import courseRoutes from './modules/course/course.routes';
+import enrollRoutes from './modules/courseUser/courseUser.routes';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -19,6 +21,8 @@ app.use(express.json());
 app.use('/', indexRoutes);
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/courses', courseRoutes);
+app.use('/api/v1/enroll', enrollRoutes);
 
 // RUN APP
 app.listen(PORT, () => {

@@ -18,6 +18,6 @@ router.get("/:id", authMiddleware, UserController.getOne);
 router.put("/:id", authMiddleware, UserController.update);
 
 // Eliminar usuario (solo Admin)
-router.delete("/:id", authMiddleware, allowRoles("Admin", "Teacher"), UserController.delete);
+router.delete("/:id", authMiddleware, allowRoles("Admin"), UserController.delete);
 
 export default router;
