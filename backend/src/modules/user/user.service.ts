@@ -1,5 +1,6 @@
 import { prisma } from "../../config/prisma";
 import { hashPassword } from "../../utils/password";
+import { Role } from ".prisma/client";
 
 export class UserService {
  
@@ -41,7 +42,7 @@ export class UserService {
         password: hashedPassword,
         idType: data.idType,
         idNumber: data.idNumber,
-        role: data.role,
+        role: data.role as Role,
         createdAt: Date.now()
       }
     });
@@ -52,7 +53,7 @@ export class UserService {
     };
   }
 
-  // service: Get usuer by ID
+  // service: Get user by ID
   static async getUserById(id: number) {
     if (!id) throw new Error("Parametro incorrecto (Id)");
     const user = await prisma.user.findUnique({ 
