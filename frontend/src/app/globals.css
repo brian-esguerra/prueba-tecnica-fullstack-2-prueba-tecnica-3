@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+:root {
+  --background: #FFF;
+  --foreground: #171717;
+  --color-light: #f0f0f0;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: "Roboto", sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+section:nth-child(even){
+  background: var(--color-light);
+}
