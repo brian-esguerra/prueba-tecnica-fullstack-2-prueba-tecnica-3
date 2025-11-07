@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "../shared/components/ui/navbar/NavBar";
+import Providers from "./store/providers";
 
 export const metadata: Metadata = {
   title: "Nexus App",
@@ -19,10 +20,12 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
       </head>
       <body>
-        <Navbar />
-        <div className="">
-          {children}
-        </div>
+        <Providers>
+          <Navbar />
+          <div className="">
+            {children}
+          </div>
+        </Providers>
       </body>
     </html>
   );

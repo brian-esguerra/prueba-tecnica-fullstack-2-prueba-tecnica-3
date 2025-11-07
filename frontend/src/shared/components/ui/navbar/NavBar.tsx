@@ -1,10 +1,25 @@
 "use client";
 import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "@/app/store/store";
+import { clearCredentials } from "@/features/auth/store/auth.slice";
+import { useRouter } from "next/navigation";
+
 import Link from "next/link";
 import { FiMenu, FiX } from "react-icons/fi";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const { user, isAuthenticated } = useSelector((state: RootState) => state.auth);
+
+  const handleLogout = () => {
+    dispatch(clearCredentials());
+    router.push("/login");
+  };
+
+  console.log(user);
 
   return (
     <nav className="bg-white shadow-lg fixed w-full z-10">
@@ -33,7 +48,14 @@ export default function Navbar() {
               >
                 Home
               </Link>
-
+              {isAuthenticated && user?.id && (
+                <Link
+                  href="/profile"
+                  className="border-[#0099aa] text-[#0099aa] inline-flex items-center px-1 pt-1 border-b-3 text-md font-medium"
+                >
+                  Mi Perfil
+                </Link>
+              )}
               <Link
                 href="/courses"
                 className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-3 text-md font-regular"
@@ -59,12 +81,20 @@ export default function Navbar() {
 
           {/* RIGHT SIDE (Desktop) */}
           <div className="hidden md:flex items-center">
-            <Link
-              href="/login"
-              className="bg-[#0099aa] px-4 py-2 rounded-md text-white text-sm font-medium hover:bg-[#00b7cb]"
-            >
-              Sign In
-            </Link>
+            {isAuthenticated ? (
+              <button onClick={handleLogout}
+                className="bg-[#0099aa] px-4 py-2 rounded-md text-white text-sm font-medium hover:bg-[#00b7cb]"
+              >
+                Salir - {user?.email}
+              </button>
+            ) : (
+              <Link
+                href="/login"
+                className="bg-[#0099aa] px-4 py-2 rounded-md text-white text-sm font-medium hover:bg-[#00b7cb]"
+              >
+                Sign In
+              </Link>
+            )}
           </div>
 
           {/* MOBILE BUTTON */}
@@ -101,10 +131,10 @@ export default function Navbar() {
 
           <div className="pt-4 pb-3 border-t border-gray-200 px-4">
             <Link
-              href="/register"
+              href="/login"
               className="block w-full bg-indigo-600 px-4 py-2 rounded-md text-white text-center text-sm font-medium hover:bg-indigo-700"
             >
-              Sign Up
+              Sign In
             </Link>
           </div>
         </div>
